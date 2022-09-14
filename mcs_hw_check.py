@@ -55,6 +55,7 @@ def print_cpuinfo(cpu_dict):
     print("[ CPU Information ]");
     space_print("CPU Name : %s" % cpu_dict["cpu_name"], TABSIZE*1);
     space_print("The number of CPUs : %s" % cpu_dict["cpu_socket"], TABSIZE*1);
+    space_print("The number of cores per socket : %s" % cpu_dict["core_per_socket"], TABSIZE*1);
     space_print("The number of threads per core : %s" % cpu_dict["thread_per_socket"], TABSIZE*1);
     space_print("Total threads : %s" % cpu_dict["threads"], TABSIZE*1);
     print("");
