@@ -8,9 +8,13 @@ import psutil
 import traceback
 import json
 import xml.etree.ElementTree as ET
+import shutil
 
 # Global constant
 TABSIZE=4
+
+def is_bin(b: str):
+    return shutil.which(b) is not None;
 
 def space_print(s, t: int):
     ss = ' '*t + s;
@@ -86,8 +90,14 @@ def print_meminfo(mem_dict):
     print("");
     return;
 
+def chech_nvsmi():
+    return True;
+
 def get_nvsmiq():
-    tree = ET.ElementTree(ET.fromstring(os.popen("nvidia-smi -x -q").read()));
+    try: 
+        tree = ET.ElementTree(ET.fromstring(os.popen("nvidia-smi -x -q").read()));
+    except:
+        traceback.print_exc();
     return tree;
 
 def get_gpuinfo(gpu_dict):
@@ -176,8 +186,13 @@ def main():
     get_meminfo(hwinfo_dict["MEM"]);
     print_meminfo(hwinfo_dict["MEM"]);
 
-    get_gpuinfo(hwinfo_dict["GPU"]);
-    print_gpuinfo(hwinfo_dict["GPU"]);
+    if is_bin("nvidia-smi"):
+        get_gpuinfo(hwinfo_dict["GPU"]);
+        print_gpuinfo(hwinfo_dict["GPU"]);
+    else:
+        print("[ GPU information ]");
+        space_print("There is NOT nvidia-smi", TABSIZE*1);
+        print("");
 
     get_strinfo(hwinfo_dict["STR"]);
     print_strinfo(hwinfo_dict["STR"]);
