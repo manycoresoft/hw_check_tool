@@ -66,7 +66,8 @@ def get_meminfo(mem_dict):
 
     mem_dict["mems"] = [];
     for dmi_mem_dict in dmi_parsed_list:
-        if dmi_mem_dict["name"] == "Memory Device":
+        if dmi_mem_dict["name"] == "Memory Device" \
+        and dmi_mem_dict["props"]["Size"]["values"][0] != "No Module Installed":
             temp_dict = {};
             temp_dict["loc"] = dmi_mem_dict["props"]["Locator"]["values"][0];
             temp_dict["vendor"] = dmi_mem_dict["props"]["Manufacturer"]["values"][0];
